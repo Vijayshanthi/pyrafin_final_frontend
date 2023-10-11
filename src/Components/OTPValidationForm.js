@@ -24,7 +24,7 @@ function OTPValidationForm({ email }) {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://188.166.228.50:8089/otp/verify_otp",
+        "http://localhost:8089/otp/verify_otp",
         {
           otp,
           email: localStorage.getItem("email"),

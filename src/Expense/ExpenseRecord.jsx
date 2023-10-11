@@ -48,6 +48,8 @@ export default function ExpenseRecord({
     IGST: "",
     PaymentType: "",
     AccountType: "",
+    Section: "",
+    TDS: "",
     DueDate: "",
     ActionDate: "",
     TotalAmount: 0,
@@ -55,6 +57,53 @@ export default function ExpenseRecord({
   });
 
   const today = new Date().toISOString().split("T")[0];
+
+  function calculateTDS(selectedSection) {
+    switch (selectedSection) {
+      case "192-Salaries":
+        return 0;
+      case "193-Interest on debentures":
+        return 10;
+      case "194-Deemed dividend":
+        return 10;
+      case "194A-Interest other than Int. on securities (by Bank)":
+        return 10;
+      case "194A-Interest other than Int. on securities (By others)":
+        return 10;
+      case "194B-Lottery / Cross Word Puzzle":
+        return 30;
+      case "194BB-Winnings from Horse Race":
+        return 30;
+      case "194C(1)-Contracts":
+        return 2;
+      case "194C(2)-Sub-contracts/ Advertisements":
+        return 2;
+      case "194D-Insurance Commission":
+        return 10;
+      case "194EE-Payments out of deposits under NSS":
+        return 20;
+      case "194F-Repurchase of units by MF/UTI":
+        return 20;
+      case "194G-Commission on sale of lottery tickets":
+        return 10;
+      case "194H-Commission or Brokerage":
+        return 10;
+      case "194I-Rent (Land & building) furniture & fittings":
+        return 10;
+      case "194F-Rent (P & M , Equipment)":
+        return 2;
+      case "194 IA-TDS on transfer of immovable property other than agriculture land (wef 01.06.13)":
+        return 1;
+      case "194J-Professional/Technical charges/ Royalty & Non-compete fees":
+        return 10;
+      case "194J(1)(ba)-Any remuneration or commission paid to director of the company(Effective from 1 July 2012)":
+        return 10;
+      case "194LA-Compensation on acquisition of immovable property":
+        return 10;
+      default:
+        return 0;
+    }
+  }
 
   const handleClick = () => {
     setOpen(true);
@@ -129,7 +178,7 @@ export default function ExpenseRecord({
 
   const updateAPIExpense = async (id, newData) => {
     await axios({
-      url: `http://188.166.228.50:8089/expense/updateexpense/${id}`,
+      url: `http://localhost:8089/expense/updateexpense/${id}`,
       method: "put",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("tokenauth")}`,
@@ -178,7 +227,7 @@ export default function ExpenseRecord({
 
   const addAPIExpense = async (newData) => {
     await axios({
-      url: `http://188.166.228.50:8089/expense/addexpense`,
+      url: `http://localhost:8089/expense/addexpense`,
       method: "post",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("tokenauth")}`,
@@ -249,7 +298,7 @@ export default function ExpenseRecord({
 
   const handleDelete = async (id) => {
     await axios({
-      url: `http://188.166.228.50:8089/expense/deletesingleexpenserecord/${id}`,
+      url: `http://localhost:8089/expense/deletesingleexpenserecord/${id}`,
       method: "put",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("tokenauth")}`,
@@ -277,7 +326,7 @@ export default function ExpenseRecord({
   }, []);
   const getExpenseRecord = async () => {
     await axios
-      .get(`http://188.166.228.50:8089/expense/getexpensedetails`, {
+      .get(`http://localhost:8089/expense/getexpensedetails`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("tokenauth")}`,
         },
@@ -662,20 +711,140 @@ export default function ExpenseRecord({
                   <MenuItem value={"Indirect"}>InDirect</MenuItem>
                 </Select>
               </FormControl>
-              <label htmlFor="">
-                {" "}
-                InvoiceDate <span style={{ color: "red" }}>*</span>
-              </label>
-              <br />
-              <input
-                type="date"
-                label="ActionDate"
-                style={{ width: "200px", height: "60px" }}
-                value={adddetails.ActionDate}
+              <FormControl sx={{ m: 1, minWidth: 720, marginBottom: "20px" }}>
+                <InputLabel
+                  id="demo-simple-select-label"
+                  placeholder="Payment Type"
+                >
+                  Section <span style={{ color: "red" }}>*</span>
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={adddetails.Section}
+                  label="Section"
+                  onChange={(e) => {
+                    const selectedSection = e.target.value;
+                    const tdsRate = calculateTDS(selectedSection);
+                    const amount = adddetails.Amount || 0;
+                    const tdsDeduction = (amount * tdsRate) / 100;
+                    setAddDetails({
+                      ...adddetails,
+                      Section: selectedSection,
+                      TDS: tdsRate,
+                      Amount: amount - tdsDeduction,
+                    });
+                  }}
+                >
+                  <MenuItem value="">--select--</MenuItem>
+                  <MenuItem value={"192-Salaries"}>192-Salaries</MenuItem>
+                  <MenuItem value={"193-Interest on debentures"}>
+                    193-Interest on debentures
+                  </MenuItem>
+                  <MenuItem value={"194-Deemed dividend"}>
+                    194-Deemed dividend
+                  </MenuItem>
+                  <MenuItem
+                    value={
+                      "194A-Interest other than Int. on securities (by Bank)"
+                    }
+                  >
+                    194A-Interest other than Int. on securities (by Bank)
+                  </MenuItem>
+                  <MenuItem
+                    value={
+                      "194A-Interest other than Int. on securities (By others)"
+                    }
+                  >
+                    194A-Interest other than Int. on securities (By others)
+                  </MenuItem>
+                  <MenuItem value={"194B-Lottery / Cross Word Puzzle"}>
+                    194B-Lottery / Cross Word Puzzle
+                  </MenuItem>
+                  <MenuItem value={"194BB-Winnings from Horse Race"}>
+                    194BB-Winnings from Horse Race
+                  </MenuItem>
+                  <MenuItem value={"194C(1)-Contracts"}>
+                    194C(1)-Contracts
+                  </MenuItem>
+                  <MenuItem value={"194C(2)-Sub-contracts/ Advertisements"}>
+                    194C(2)-Sub-contracts/ Advertisements
+                  </MenuItem>
+                  <MenuItem value={"194D-Insurance Commission"}>
+                    194D-Insurance Commission
+                  </MenuItem>
+                  <MenuItem value={"194EE-Payments out of deposits under NSS"}>
+                    194EE-Payments out of deposits under NSS
+                  </MenuItem>
+                  <MenuItem value={"194F-Repurchase of units by MF/UTI"}>
+                    194F-Repurchase of units by MF/UTI
+                  </MenuItem>
+                  <MenuItem
+                    value={"194G-Commission on sale of lottery tickets"}
+                  >
+                    194G-Commission on sale of lottery tickets
+                  </MenuItem>
+                  <MenuItem value={"194H-Commission or Brokerage"}>
+                    194H-Commission or Brokerage
+                  </MenuItem>
+                  <MenuItem value={"194F-Repurchase of units by MF/UTI"}>
+                    194F-Repurchase of units by MF/UTI
+                  </MenuItem>
+                  <MenuItem
+                    value={"194I-Rent (Land & building) furniture & fittings"}
+                  >
+                    194I-Rent (Land & building) furniture & fittings
+                  </MenuItem>
+                  <MenuItem value={"194F-Rent (P & M , Equipment)"}>
+                    194F-Rent (P & M , Equipment)
+                  </MenuItem>
+                  <MenuItem
+                    value={
+                      "194 IA-TDS on transfer of immovable property other than agriculture land (wef 01.06.13)"
+                    }
+                  >
+                    194 IA-TDS on transfer of immovable property other than
+                    agriculture land (wef 01.06.13)
+                  </MenuItem>
+                  <MenuItem
+                    value={
+                      "194J-Professional/Technical charges/ Royalty & Non-compete fees"
+                    }
+                  >
+                    194J-Professional/Technical charges/ Royalty & Non-compete
+                    fees
+                  </MenuItem>
+                  <MenuItem
+                    value={
+                      "194J(1)(ba)-Any remuneration or commission paid to director of the company(Effective from 1 July 2012)"
+                    }
+                  >
+                    194J(1)(ba)-Any remuneration or commission paid to director
+                    of the company(Effective from 1 July 2012)
+                  </MenuItem>
+                  <MenuItem
+                    value={
+                      "194LA-Compensation on acquisition of immovable property"
+                    }
+                  >
+                    194LA-Compensation on acquisition of immovable property
+                  </MenuItem>
+                </Select>
+              </FormControl>
+              <TextField
+                id="standard-number"
+                label={<span>TDS %</span>}
+                type="number"
+                variant="standard"
+                sx={{ marginBottom: "25px", width: 218 }}
                 onChange={(e) =>
-                  setAddDetails({ ...adddetails, ActionDate: e.target.value })
+                  setAddDetails({
+                    ...adddetails,
+                    TDS: Number(e.target.value),
+                  })
                 }
-              ></input>
+                value={Number(adddetails.TDS) || ""}
+              />
             </Grid>
             <Grid item lg={4}>
               <TextField
@@ -710,7 +879,7 @@ export default function ExpenseRecord({
                 }
                 value={Number(adddetails.SGST) || ""}
               />
-              <FormControl sx={{ m: 1, minWidth: 220, marginBottom: "23px" }}>
+              <FormControl sx={{ m: 1, minWidth: 220, marginBottom: "107px" }}>
                 <InputLabel
                   id="demo-simple-select-label"
                   placeholder="Payment Type"
@@ -738,16 +907,16 @@ export default function ExpenseRecord({
               </FormControl>
               <label htmlFor="">
                 {" "}
-                DueDate<span style={{ color: "red" }}>*</span>
+                InvoiceDate <span style={{ color: "red" }}>*</span>
               </label>
               <br />
               <input
                 type="date"
-                label={adddetails.DueDate}
+                label="ActionDate"
                 style={{ width: "200px", height: "60px" }}
-                value={adddetails.DueDate}
+                value={adddetails.ActionDate}
                 onChange={(e) =>
-                  setAddDetails({ ...adddetails, DueDate: e.target.value })
+                  setAddDetails({ ...adddetails, ActionDate: e.target.value })
                 }
               ></input>
             </Grid>
@@ -785,6 +954,40 @@ export default function ExpenseRecord({
                 }
                 value={Number(adddetails.IGST) || ""}
               />
+              <FormControl sx={{ m: 1, minWidth: 250, marginBottom: "105px" }}>
+                <InputLabel id="demo-simple-select-label">
+                  Status <span style={{ color: "red" }}>*</span>
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={adddetails.Status}
+                  label="Status"
+                  onChange={(e) =>
+                    setAddDetails({
+                      ...adddetails,
+                      Status: e.target.value,
+                    })
+                  }
+                >
+                  <MenuItem value={"Paid"}>Paid</MenuItem>
+                  <MenuItem value={"UnPaid"}>UnPaid</MenuItem>
+                </Select>
+              </FormControl>
+              <label htmlFor="">
+                {" "}
+                DueDate<span style={{ color: "red" }}>*</span>
+              </label>
+              <br />
+              <input
+                type="date"
+                label={adddetails.DueDate}
+                style={{ width: "200px", height: "60px" }}
+                value={adddetails.DueDate}
+                onChange={(e) =>
+                  setAddDetails({ ...adddetails, DueDate: e.target.value })
+                }
+              ></input>
             </Grid>
           </Grid>
         </DialogContent>

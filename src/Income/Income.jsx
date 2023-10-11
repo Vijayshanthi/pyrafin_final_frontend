@@ -126,7 +126,7 @@ export default function Income2({ totalIncomecall, totalunpaidincomecall }) {
   };
   const addApiIncomeData = async (newData) => {
     await axios({
-      url: "http://188.166.228.50:8089/income/addincome",
+      url: "http://localhost:8089/income/addincome",
       method: "post",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("tokenauth")}`,
@@ -161,7 +161,7 @@ export default function Income2({ totalIncomecall, totalunpaidincomecall }) {
 
   const updateApiIncomeData = async (id, newData) => {
     await axios({
-      url: `http://188.166.228.50:8089/income/updateincome/${id}`,
+      url: `http://localhost:8089/income/updateincome/${id}`,
       method: "put",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("tokenauth")}`,
@@ -228,7 +228,7 @@ export default function Income2({ totalIncomecall, totalunpaidincomecall }) {
 
   const handleDelete = async (id) => {
     await axios({
-      url: `http://188.166.228.50:8089/income/deletesinglerecord/${id}`,
+      url: `http://localhost:8089/income/deletesinglerecord/${id}`,
       method: "put",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("tokenauth")}`,
@@ -252,7 +252,7 @@ export default function Income2({ totalIncomecall, totalunpaidincomecall }) {
   };
   const handleDownloadClick = async (id) => {
     await axios({
-      url: `http://188.166.228.50:8089/income/generateinvoice/${id}`,
+      url: `http://localhost:8089/income/generateinvoice/${id}`,
       method: "get",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("tokenauth")}`,
@@ -262,7 +262,7 @@ export default function Income2({ totalIncomecall, totalunpaidincomecall }) {
         if (res.status == 200 || 201) {
           setTimeout(() => {
             window.open(
-              `http://188.166.228.50:8089/file/${res.data.fileName}`,
+              `http://localhost:8089/file/${res.data.fileName}`,
               "__blank"
             );
           }, 3000);
@@ -275,7 +275,7 @@ export default function Income2({ totalIncomecall, totalunpaidincomecall }) {
 
   const generatereceipt = async (id) => {
     await axios({
-      url: `http://188.166.228.50:8089/income/generatereceipt/${id}`,
+      url: `http://localhost:8089/income/generatereceipt/${id}`,
       method: "get",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("tokenauth")}`,
@@ -285,7 +285,7 @@ export default function Income2({ totalIncomecall, totalunpaidincomecall }) {
         if (res.status == 200 || 201) {
           setTimeout(() => {
             window.open(
-              `http://188.166.228.50:8089/file/${res.data.fileName}`,
+              `http://localhost:8089/file/${res.data.fileName}`,
               "__blank"
             );
           }, 3000);
@@ -302,7 +302,7 @@ export default function Income2({ totalIncomecall, totalunpaidincomecall }) {
 
   const getIncomeRecord = async () => {
     await axios
-      .get(`http://188.166.228.50:8089/income/getincomedetails`, {
+      .get(`http://localhost:8089/income/getincomedetails`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("tokenauth")}`,
         },

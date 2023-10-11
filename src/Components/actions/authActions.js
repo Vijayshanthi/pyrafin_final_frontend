@@ -3,7 +3,7 @@ import axios from "axios";
 export const register = (formData) => async (dispatch) => {
   try {
     const response = await axios.post(
-      "http://188.166.228.50:8089/send-otp",
+      "http://localhost:8089/send-otp",
       formData
     );
     const { token } = response.data;

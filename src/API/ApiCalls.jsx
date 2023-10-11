@@ -4,7 +4,7 @@ export default {
   getTotalIncome: async function () {
     try {
       const response = await axios.get(
-        `http://188.166.228.50:8089/income/getTotalIncomeRate`,
+        `http://localhost:8089/income/getTotalIncomeRate`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("tokenauth")}`,
@@ -19,7 +19,7 @@ export default {
   getUnpaidTotalIncome: async function () {
     try {
       const response = await axios.get(
-        `http://188.166.228.50:8089/income/getUnpaidTotalIncomeRate`,
+        `http://localhost:8089/income/getUnpaidTotalIncomeRate`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("tokenauth")}`,
@@ -36,7 +36,7 @@ export default {
   getTotalExpense: async function () {
     try {
       const response = await axios.get(
-        `http://188.166.228.50:8089/expense/getDirectTotalExpenseRate`,
+        `http://localhost:8089/expense/getDirectTotalExpenseRate`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("tokenauth")}`,
@@ -51,7 +51,7 @@ export default {
   getUnpaidTotalExpense: async function () {
     try {
       const response = await axios.get(
-        `http://188.166.228.50:8089/expense/getIndirectTotalExpenseRate`,
+        `http://localhost:8089/expense/getIndirectTotalExpenseRate`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("tokenauth")}`,
