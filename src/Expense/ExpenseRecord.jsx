@@ -4,7 +4,6 @@ import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
-
 import Dialog from "@mui/material/Dialog";
 import moment from "moment";
 import DialogActions from "@mui/material/DialogActions";
@@ -50,6 +49,8 @@ export default function ExpenseRecord({
     AccountType: "",
     Section: "",
     TDS: "",
+    TDSAmount: "",
+    Status: "",
     DueDate: "",
     ActionDate: "",
     TotalAmount: 0,
@@ -121,6 +122,10 @@ export default function ExpenseRecord({
       IGST: "",
       PaymentType: "",
       AccountType: "",
+      Section: "",
+      TDS: "",
+      TDSAmount: "",
+      Status: "",
       DueDate: "",
       ActionDate: "",
       TotalAmount: 0,
@@ -135,6 +140,7 @@ export default function ExpenseRecord({
       adddetails.Amount == 0 ||
       adddetails.PaymentType == "" ||
       adddetails.AccountType == "" ||
+      adddetails.Status == "" ||
       adddetails.DueDate == "" ||
       adddetails.ActionDate == ""
     ) {
@@ -145,11 +151,14 @@ export default function ExpenseRecord({
           (adddetails.CGST / 100) * adddetails.Amount +
           (adddetails.SGST / 100) * adddetails.Amount +
           (adddetails.IGST / 100) * adddetails.Amount +
-          adddetails.Amount;
+          adddetails.Amount -
+          (adddetails.TDS / 100) * adddetails.Amount;
+        const tdsamount = (adddetails.TDS / 100) * adddetails.Amount;
         setAddDetails({
           ...adddetails,
           TotalAmount: total,
           BalanceDue: total,
+          TDSAmount: tdsamount,
         });
         if (actionTake) {
           updateAPIExpense(adddetails.id, {
@@ -159,6 +168,8 @@ export default function ExpenseRecord({
             CGST: Number(adddetails.CGST),
             SGST: Number(adddetails.SGST),
             IGST: Number(adddetails.IGST),
+            TDS: Number(adddetails.TDS),
+            TDSAmount: tdsamount,
           });
         } else {
           addAPIExpense({
@@ -168,6 +179,8 @@ export default function ExpenseRecord({
             CGST: Number(adddetails.CGST),
             SGST: Number(adddetails.SGST),
             IGST: Number(adddetails.IGST),
+            TDS: Number(adddetails.TDS),
+            TDSAmount: tdsamount,
           });
         }
       } else {
@@ -178,7 +191,7 @@ export default function ExpenseRecord({
 
   const updateAPIExpense = async (id, newData) => {
     await axios({
-      url: `http://localhost:8089/expense/updateexpense/${id}`,
+      url: `http://localhost:8099/expense/updateexpense/${id}`,
       method: "put",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("tokenauth")}`,
@@ -203,6 +216,10 @@ export default function ExpenseRecord({
             IGST: "",
             PaymentType: "",
             AccountType: "",
+            Section: "",
+            TDS: "",
+            TDSAmount: "",
+            Status: "",
             DueDate: "",
             ActionDate: "",
             TotalAmount: 0,
@@ -227,7 +244,7 @@ export default function ExpenseRecord({
 
   const addAPIExpense = async (newData) => {
     await axios({
-      url: `http://localhost:8089/expense/addexpense`,
+      url: `http://localhost:8099/expense/addexpense`,
       method: "post",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("tokenauth")}`,
@@ -251,6 +268,9 @@ export default function ExpenseRecord({
             IGST: "",
             PaymentType: "",
             AccountType: "",
+            Section: "",
+            TDS: "",
+            TDSAmount: "",
             DueDate: "",
             ActionDate: "",
             TotalAmount: 0,
@@ -298,7 +318,7 @@ export default function ExpenseRecord({
 
   const handleDelete = async (id) => {
     await axios({
-      url: `http://localhost:8089/expense/deletesingleexpenserecord/${id}`,
+      url: `http://localhost:8099/expense/deletesingleexpenserecord/${id}`,
       method: "put",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("tokenauth")}`,
@@ -326,7 +346,7 @@ export default function ExpenseRecord({
   }, []);
   const getExpenseRecord = async () => {
     await axios
-      .get(`http://localhost:8089/expense/getexpensedetails`, {
+      .get(`http://localhost:8099/expense/getexpensedetails`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("tokenauth")}`,
         },
@@ -372,10 +392,59 @@ export default function ExpenseRecord({
       headerClassName: "super-app-theme--header",
     },
     {
+      field: "Section",
+      headerName: (
+        <div>
+          <b>Section</b>
+        </div>
+      ),
+      width: 200,
+      editable: true,
+      align: "left",
+      headerAlign: "center",
+      headerClassName: "super-app-theme--header",
+    },
+    {
       field: "Amount",
       headerName: (
         <div>
-          <b>Amount </b>
+          <b>Amount</b>
+        </div>
+      ),
+      type: "number",
+      width: 130,
+      editable: true,
+      align: "left",
+      headerAlign: "center",
+      headerClassName: "super-app-theme--header",
+    },
+    {
+      field: "TDS",
+      headerName: (
+        <div>
+          <b>TDS % </b>
+        </div>
+      ),
+      type: "number",
+      width: 130,
+      editable: true,
+      align: "left",
+      headerAlign: "center",
+      headerClassName: "super-app-theme--header",
+      renderCell: (params) => {
+        const value = params.value || 0;
+        return (
+          <span>
+            <b>{value}</b>
+          </span>
+        );
+      },
+    },
+    {
+      field: "TDSAmount",
+      headerName: (
+        <div>
+          <b> TDS Amount </b>
         </div>
       ),
       type: "number",
@@ -501,6 +570,41 @@ export default function ExpenseRecord({
       headerAlign: "center",
       type: "singleSelect",
       valueOptions: ["Cash", "Solution", "Workz", "Digital", "Director Fund"],
+      headerClassName: "super-app-theme--header",
+    },
+    {
+      field: "Status",
+      headerName: (
+        <div>
+          <b>Status</b>
+        </div>
+      ),
+      width: 120,
+      editable: true,
+      headerAlign: "center",
+      type: "singleSelect",
+      renderCell: (params) => {
+        const value = params.value;
+        if (params.value == "Paid") {
+        }
+        let color = "green";
+        if (params.value == "UnPaid" || "NotApplicable") {
+          color = "red";
+        } else {
+          color = "";
+        }
+
+        return (
+          <div
+            style={{
+              color:
+                value == "UnPaid" || value == "NotApplicable" ? "red" : "green",
+            }}
+          >
+            {value} &nbsp;
+          </div>
+        );
+      },
       headerClassName: "super-app-theme--header",
     },
     {
@@ -731,8 +835,8 @@ export default function ExpenseRecord({
                     setAddDetails({
                       ...adddetails,
                       Section: selectedSection,
+                      Amount: adddetails.Amount,
                       TDS: tdsRate,
-                      Amount: amount - tdsDeduction,
                     });
                   }}
                 >
@@ -972,6 +1076,7 @@ export default function ExpenseRecord({
                 >
                   <MenuItem value={"Paid"}>Paid</MenuItem>
                   <MenuItem value={"UnPaid"}>UnPaid</MenuItem>
+                  <MenuItem value={"NotApplicable"}>Not Applicable</MenuItem>
                 </Select>
               </FormControl>
               <label htmlFor="">
