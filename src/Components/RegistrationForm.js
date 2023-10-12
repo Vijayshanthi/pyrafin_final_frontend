@@ -36,7 +36,7 @@ const RegistrationForm = () => {
       try {
         localStorage.setItem("email", values.email);
         const registrationResponse = await axios.post(
-          "http://localhost:8089/user/register",
+          "http://localhost:8099/user/register",
           {
             email: values.email,
             password: values.password,
