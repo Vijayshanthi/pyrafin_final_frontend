@@ -18,7 +18,6 @@ import { Grid } from "@mui/material";
 import axios from "axios";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
-
 import { useNavigate } from "react-router-dom";
 
 export default function ExpenseRecord({
@@ -50,6 +49,7 @@ export default function ExpenseRecord({
     Section: "",
     TDS: "",
     TDSAmount: "",
+    TDSStatus: "",
     Status: "",
     DueDate: "",
     ActionDate: "",
@@ -125,6 +125,7 @@ export default function ExpenseRecord({
       Section: "",
       TDS: "",
       TDSAmount: "",
+      TDSStatus: "",
       Status: "",
       DueDate: "",
       ActionDate: "",
@@ -141,6 +142,7 @@ export default function ExpenseRecord({
       adddetails.PaymentType == "" ||
       adddetails.AccountType == "" ||
       adddetails.Status == "" ||
+      adddetails.TDSStatus == "" ||
       adddetails.DueDate == "" ||
       adddetails.ActionDate == ""
     ) {
@@ -151,8 +153,8 @@ export default function ExpenseRecord({
           (adddetails.CGST / 100) * adddetails.Amount +
           (adddetails.SGST / 100) * adddetails.Amount +
           (adddetails.IGST / 100) * adddetails.Amount +
-          adddetails.Amount -
-          (adddetails.TDS / 100) * adddetails.Amount;
+          adddetails.Amount;
+
         const tdsamount = (adddetails.TDS / 100) * adddetails.Amount;
         setAddDetails({
           ...adddetails,
@@ -160,28 +162,55 @@ export default function ExpenseRecord({
           BalanceDue: total,
           TDSAmount: tdsamount,
         });
+
         if (actionTake) {
-          updateAPIExpense(adddetails.id, {
-            ...adddetails,
-            TotalAmount: total,
-            BalanceDue: total,
-            CGST: Number(adddetails.CGST),
-            SGST: Number(adddetails.SGST),
-            IGST: Number(adddetails.IGST),
-            TDS: Number(adddetails.TDS),
-            TDSAmount: tdsamount,
-          });
+          if (adddetails.TDSStatus == "Applicable") {
+            updateAPIExpense(adddetails.id, {
+              ...adddetails,
+              TotalAmount: total - tdsamount,
+              BalanceDue: total - tdsamount,
+              CGST: Number(adddetails.CGST),
+              SGST: Number(adddetails.SGST),
+              IGST: Number(adddetails.IGST),
+              TDS: Number(adddetails.TDS),
+              TDSAmount: tdsamount,
+            });
+          } else {
+            updateAPIExpense(adddetails.id, {
+              ...adddetails,
+              TotalAmount: total,
+              BalanceDue: total,
+              CGST: Number(adddetails.CGST),
+              SGST: Number(adddetails.SGST),
+              IGST: Number(adddetails.IGST),
+              TDS: Number(adddetails.TDS),
+              TDSAmount: tdsamount,
+            });
+          }
         } else {
-          addAPIExpense({
-            ...adddetails,
-            TotalAmount: total,
-            BalanceDue: total,
-            CGST: Number(adddetails.CGST),
-            SGST: Number(adddetails.SGST),
-            IGST: Number(adddetails.IGST),
-            TDS: Number(adddetails.TDS),
-            TDSAmount: tdsamount,
-          });
+          if (adddetails.TDSStatus == "Applicable") {
+            addAPIExpense({
+              ...adddetails,
+              TotalAmount: total - tdsamount,
+              BalanceDue: total - tdsamount,
+              CGST: Number(adddetails.CGST),
+              SGST: Number(adddetails.SGST),
+              IGST: Number(adddetails.IGST),
+              TDS: Number(adddetails.TDS),
+              TDSAmount: tdsamount,
+            });
+          } else {
+            addAPIExpense({
+              ...adddetails,
+              TotalAmount: total,
+              BalanceDue: total,
+              CGST: Number(adddetails.CGST),
+              SGST: Number(adddetails.SGST),
+              IGST: Number(adddetails.IGST),
+              TDS: Number(adddetails.TDS),
+              TDSAmount: tdsamount,
+            });
+          }
         }
       } else {
         window.alert("Invoice date should be less than or equal to due date");
@@ -219,6 +248,7 @@ export default function ExpenseRecord({
             Section: "",
             TDS: "",
             TDSAmount: "",
+            TDSStatus: "",
             Status: "",
             DueDate: "",
             ActionDate: "",
@@ -271,6 +301,7 @@ export default function ExpenseRecord({
             Section: "",
             TDS: "",
             TDSAmount: "",
+            TDSStatus: "",
             DueDate: "",
             ActionDate: "",
             TotalAmount: 0,
@@ -588,7 +619,7 @@ export default function ExpenseRecord({
         if (params.value == "Paid") {
         }
         let color = "green";
-        if (params.value == "UnPaid" || "NotApplicable") {
+        if (params.value == "UnPaid") {
           color = "red";
         } else {
           color = "";
@@ -597,8 +628,41 @@ export default function ExpenseRecord({
         return (
           <div
             style={{
-              color:
-                value == "UnPaid" || value == "NotApplicable" ? "red" : "green",
+              color: value == "UnPaid" ? "red" : "green",
+            }}
+          >
+            {value} &nbsp;
+          </div>
+        );
+      },
+      headerClassName: "super-app-theme--header",
+    },
+    {
+      field: "TDSStatus",
+      headerName: (
+        <div>
+          <b> TDS Status</b>
+        </div>
+      ),
+      width: 120,
+      editable: true,
+      headerAlign: "center",
+      type: "singleSelect",
+      renderCell: (params) => {
+        const value = params.value;
+        if (params.value == "Applicable") {
+        }
+        let color = "green";
+        if (params.value == "Not Applicable") {
+          color = "red";
+        } else {
+          color = "";
+        }
+
+        return (
+          <div
+            style={{
+              color: value == "Not Applicable" ? "red" : "green",
             }}
           >
             {value} &nbsp;
@@ -940,7 +1004,7 @@ export default function ExpenseRecord({
                 label={<span>TDS %</span>}
                 type="number"
                 variant="standard"
-                sx={{ marginBottom: "25px", width: 218 }}
+                sx={{ marginBottom: "45px", width: 218 }}
                 onChange={(e) =>
                   setAddDetails({
                     ...adddetails,
@@ -949,6 +1013,20 @@ export default function ExpenseRecord({
                 }
                 value={Number(adddetails.TDS) || ""}
               />
+              <label htmlFor="">
+                {" "}
+                InvoiceDate <span style={{ color: "red" }}>*</span>
+              </label>
+              <br />
+              <input
+                type="date"
+                label="ActionDate"
+                style={{ width: "200px", height: "60px" }}
+                value={adddetails.ActionDate}
+                onChange={(e) =>
+                  setAddDetails({ ...adddetails, ActionDate: e.target.value })
+                }
+              ></input>
             </Grid>
             <Grid item lg={4}>
               <TextField
@@ -1009,18 +1087,38 @@ export default function ExpenseRecord({
                   <MenuItem value={"Director Fund"}>Director Fund</MenuItem>
                 </Select>
               </FormControl>
+              <FormControl sx={{ m: 1, minWidth: 250, marginBottom: "28px" }}>
+                <InputLabel id="demo-simple-select-label">
+                  TDS Status <span style={{ color: "red" }}>*</span>
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={adddetails.TDSStatus}
+                  label="TDSStatus"
+                  onChange={(e) =>
+                    setAddDetails({
+                      ...adddetails,
+                      TDSStatus: e.target.value,
+                    })
+                  }
+                >
+                  <MenuItem value={"Applicable"}>Applicable</MenuItem>
+                  <MenuItem value={"Not Applicable"}>Not Applicable</MenuItem>
+                </Select>
+              </FormControl>
               <label htmlFor="">
                 {" "}
-                InvoiceDate <span style={{ color: "red" }}>*</span>
+                DueDate<span style={{ color: "red" }}>*</span>
               </label>
               <br />
               <input
                 type="date"
-                label="ActionDate"
+                label={adddetails.DueDate}
                 style={{ width: "200px", height: "60px" }}
-                value={adddetails.ActionDate}
+                value={adddetails.DueDate}
                 onChange={(e) =>
-                  setAddDetails({ ...adddetails, ActionDate: e.target.value })
+                  setAddDetails({ ...adddetails, DueDate: e.target.value })
                 }
               ></input>
             </Grid>
@@ -1076,23 +1174,8 @@ export default function ExpenseRecord({
                 >
                   <MenuItem value={"Paid"}>Paid</MenuItem>
                   <MenuItem value={"UnPaid"}>UnPaid</MenuItem>
-                  <MenuItem value={"NotApplicable"}>Not Applicable</MenuItem>
                 </Select>
               </FormControl>
-              <label htmlFor="">
-                {" "}
-                DueDate<span style={{ color: "red" }}>*</span>
-              </label>
-              <br />
-              <input
-                type="date"
-                label={adddetails.DueDate}
-                style={{ width: "200px", height: "60px" }}
-                value={adddetails.DueDate}
-                onChange={(e) =>
-                  setAddDetails({ ...adddetails, DueDate: e.target.value })
-                }
-              ></input>
             </Grid>
           </Grid>
         </DialogContent>
