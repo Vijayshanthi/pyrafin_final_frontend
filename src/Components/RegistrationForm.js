@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
+
 import {
   TextField,
   Button,
@@ -44,7 +45,7 @@ const RegistrationForm = () => {
         );
         if (registrationResponse.status === 201) {
           setOtpSent(true);
-        } else if (registrationResponse.status == 301) {
+        } else if (registrationResponse.status === 301) {
           window.alert("Email Already exists");
         } else {
           alert("Error registering user:", registrationResponse);

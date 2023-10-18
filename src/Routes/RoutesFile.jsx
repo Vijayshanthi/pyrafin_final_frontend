@@ -9,6 +9,7 @@ import RegistrationForm from "../Components/RegistrationForm";
 export default function RoutesFile() {
   const user = localStorage.getItem("userId") || "";
   return (
+
     <Routes>
       <Route path="/" element={<RegistrationForm />} />
       <Route path="/income" element={user && <IncomeDashboard />} />

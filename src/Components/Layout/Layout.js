@@ -18,12 +18,18 @@ import IncomeDashboard from "../../Income/IncomeDashboard";
 import ExpenseDashboard from "../../Expense/ExpenseDashboard";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useNavigate } from "react-router-dom";
+import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
+import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
+import TdsDashboard from "../TDS/TdsDashboard";
+import Gst1 from "../gst/Gst1";
+import Gst2 from "../gst/Gst2";
+import Gst3 from "../gst/Gst3B";
 
+//  import PayrollDashboard from "../Payroll/PayrollDashboard";
 const Layout = () => {
   const [showNavBar, setShowNavBar] = useState(true);
   const [selectedTab, setSelectedTab] = useState("dashboard");
   const navigate = useNavigate();
-
   const handleLogout = async () => {
     try {
       localStorage.removeItem("tokenauth");
@@ -32,7 +38,6 @@ const Layout = () => {
       console.error("Logout error:", error);
     }
   };
-
   const renderSelectedComponent = () => {
     if (selectedTab === "dashboard") {
       return <Dashboard />;
@@ -40,14 +45,20 @@ const Layout = () => {
       return <IncomeDashboard />;
     } else if (selectedTab === "expenses") {
       return <ExpenseDashboard />;
+    } else if (selectedTab === "tdsdashboard") {
+      return <TdsDashboard />;
+    } else if (selectedTab === "Gst1") {
+      return <Gst1 />;
+    } else if (selectedTab === "Gst2") {
+      return <Gst2 />;
+    } else if (selectedTab === "Gst3B") {
+      return <Gst3 />;
     }
   };
-
   const handleTabClick = (tab) => {
     setSelectedTab(tab);
     localStorage.setItem("selectedTab", tab);
   };
-
   useEffect(() => {
     const storedTab = localStorage.getItem("selectedTab");
     if (storedTab) {
@@ -131,6 +142,81 @@ const Layout = () => {
             </ListItem>
             <ListItem
               button
+              key="tdsdashboard"
+              onClick={() => handleTabClick("tdsdashboard")}
+              sx={{
+                "&:hover": {
+                  backgroundColor: "#333",
+                },
+              }}
+            >
+              <ListItemIcon>
+                <AccountBalanceIcon style={{ color: "#FBC91B" }} />
+              </ListItemIcon>
+              <ListItemText primary="TDS" style={{ color: "#FBC91B" }} />
+            </ListItem>
+            <ListItem
+              button
+              key="Gst1"
+              onClick={() => handleTabClick("Gst1")}
+              sx={{
+                "&:hover": {
+                  backgroundColor: "#333",
+                },
+              }}
+            >
+              <ListItemIcon>
+                <ArrowOutwardIcon style={{ color: "#FBC91B" }} />
+              </ListItemIcon>
+              <ListItemText primary="GST1" style={{ color: "#FBC91B" }} />
+            </ListItem>
+            <ListItem
+              button
+              key="Gst2"
+              onClick={() => handleTabClick("Gst2")}
+              sx={{
+                "&:hover": {
+                  backgroundColor: "#333",
+                },
+              }}
+            >
+              <ListItemIcon>
+                <ArrowOutwardIcon style={{ color: "#FBC91B" }} />
+              </ListItemIcon>
+              <ListItemText primary="GST2" style={{ color: "#FBC91B" }} />
+            </ListItem>
+            <ListItem
+              button
+              key="Gst3B"
+              onClick={() => handleTabClick("Gst3B")}
+              sx={{
+                "&:hover": {
+                  backgroundColor: "#333",
+                },
+              }}
+            >
+              <ListItemIcon>
+                <ArrowOutwardIcon style={{ color: "#FBC91B" }} />
+              </ListItemIcon>
+              <ListItemText primary="GST3B" style={{ color: "#FBC91B" }} />
+            </ListItem>
+            <ListItem
+              button
+              key="Payroll"
+              onClick={() => handleTabClick("Payroll")}
+              sx={{
+                "&:hover": {
+                  backgroundColor: "#333",
+                },
+              }}
+            >
+              <ListItemIcon>
+                <ArrowOutwardIcon style={{ color: "#FBC91B" }} />
+              </ListItemIcon>
+              <ListItemText primary="Payroll" style={{ color: "#FBC91B" }} />
+            </ListItem>
+            <ListItem
+              button
               key="logout"
               onClick={handleLogout}
               sx={{
@@ -139,6 +225,7 @@ const Layout = () => {
                 },
               }}
             >
+
               <ListItemIcon>
                 <LogoutIcon style={{ color: "#FBC91B" }} />
               </ListItemIcon>
@@ -152,3 +239,25 @@ const Layout = () => {
   );
 };
 export default Layout;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

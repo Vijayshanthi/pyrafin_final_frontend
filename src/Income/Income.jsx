@@ -20,6 +20,8 @@ import axios from "axios";
 import { GridRowModes, DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
+
 const currentYear = new Date().getFullYear();
 const nextYear = currentYear + 1;
 const lastTwoDigitsCurrentYear = currentYear % 100;
@@ -151,8 +153,7 @@ export default function Income2({ totalIncomecall, totalunpaidincomecall }) {
           navigate("/login");
         } else if (err.response && err.response.status == 500) {
           window.alert(
-            ` ${
-              err.response && err.response.data && err.response.data.msg
+            ` ${err.response && err.response.data && err.response.data.msg
             } in ${err.response.data.path}`
           );
         }
@@ -186,8 +187,7 @@ export default function Income2({ totalIncomecall, totalunpaidincomecall }) {
           navigate("/login");
         } else if (err.response && err.response.status == 500) {
           window.alert(
-            ` ${
-              err.response && err.response.data && err.response.data.msg
+            ` ${err.response && err.response.data && err.response.data.msg
             } in ${err.response.data.path}`
           );
         }
@@ -1130,3 +1130,14 @@ export default function Income2({ totalIncomecall, totalunpaidincomecall }) {
     </Box>
   );
 }
+
+
+
+
+
+
+
+
+
+
+
