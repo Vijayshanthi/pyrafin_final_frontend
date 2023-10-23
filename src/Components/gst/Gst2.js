@@ -1,4 +1,3 @@
-
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -186,8 +185,7 @@ export default function Gst2({
               color: "#2196F3",
             }}
           >
-            Expense GST
-          </Typography>
+            GST 2 - EXPENSE          </Typography>
         </Grid>
       </Grid>
       <Box

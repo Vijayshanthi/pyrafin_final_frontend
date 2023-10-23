@@ -1,5 +1,6 @@
-/* .App {
+.App {
   text-align: center;
+  background-image: url('https://www.shutterstock.com/image-vector/abstract-financial-graph-uptrend-line-260nw-1534094558.jpg');
 }
 
 .App-logo {
@@ -11,9 +12,8 @@
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
-} */
-
-.redcolor {
+}
+*/ .redcolor {
   color: red;
 }
 .greencolor {
