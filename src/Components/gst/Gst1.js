@@ -41,7 +41,7 @@ export default function Gst1({
   }, []);
   const getExpenseRecord = async () => {
     await axios
-      .get(`http://localhost:8099/gst/getincomedetails`, {
+      .get(`http://188.166.228.50:8089/gst/getincomedetails`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("tokenauth")}`,
         },

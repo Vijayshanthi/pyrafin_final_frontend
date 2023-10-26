@@ -220,7 +220,7 @@ export default function ExpenseRecord({
 
   const updateAPIExpense = async (id, newData) => {
     await axios({
-      url: `http://localhost:8099/expense/updateexpense/${id}`,
+      url: `http://188.166.228.50:8089/expense/updateexpense/${id}`,
       method: "put",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("tokenauth")}`,
@@ -273,7 +273,7 @@ export default function ExpenseRecord({
 
   const addAPIExpense = async (newData) => {
     await axios({
-      url: `http://localhost:8099/expense/addexpense`,
+      url: `http://188.166.228.50:8089/expense/addexpense`,
       method: "post",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("tokenauth")}`,
@@ -347,7 +347,7 @@ export default function ExpenseRecord({
 
   const handleDelete = async (id) => {
     await axios({
-      url: `http://localhost:8099/expense/deletesingleexpenserecord/${id}`,
+      url: `http://188.166.228.50:8089/expense/deletesingleexpenserecord/${id}`,
       method: "put",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("tokenauth")}`,
@@ -375,7 +375,7 @@ export default function ExpenseRecord({
   }, []);
   const getExpenseRecord = async () => {
     await axios
-      .get(`http://localhost:8099/expense/getexpensedetails`, {
+      .get(`http://188.166.228.50:8089/expense/getexpensedetails`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("tokenauth")}`,
         },

@@ -116,7 +116,7 @@ const Dashboard = () => {
     ) {
       try {
         await Axios({
-          url: "http://localhost:8099/account/api/account-summary",
+          url: "http://188.166.228.50:8089/account/api/account-summary",
           method: "post",
           headers: {
             Authorization: `Bearer ${localStorage.getItem("tokenauth")}`,
@@ -178,7 +178,7 @@ const Dashboard = () => {
     if (editMode[index]) {
       try {
         await Axios({
-          url: `http://localhost:8099/account/api/account-summary/${updatedTableData[index].id}`,
+          url: `http://188.166.228.50:8089/account/api/account-summary/${updatedTableData[index].id}`,
           method: "put",
           headers: {
             Authorization: `Bearer ${localStorage.getItem("tokenauth")}`,
@@ -271,7 +271,7 @@ const Dashboard = () => {
   const fetchData = async () => {
     try {
       await Axios({
-        url: "http://localhost:8099/account/api/account-summary",
+        url: "http://188.166.228.50:8089/account/api/account-summary",
         method: "get",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("tokenauth")}`,
@@ -295,7 +295,7 @@ const Dashboard = () => {
   const handleDeleteRow = async (index, accountId) => {
     try {
       await Axios({
-        url: `http://localhost:8099/account/api/account-summary/${accountId}`,
+        url: `http://188.166.228.50:8089/account/api/account-summary/${accountId}`,
         method: "delete",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("tokenauth")}`,

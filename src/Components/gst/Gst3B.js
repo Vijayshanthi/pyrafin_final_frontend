@@ -61,7 +61,7 @@ export default function Gst3B({
 
   const getGstRecord = () => {
     return axios
-      .get(`http://localhost:8099/gst/getincomedetails`, {
+      .get(`http://188.166.228.50:8089/gst/getincomedetails`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("tokenauth")}`,
         },
@@ -100,7 +100,7 @@ export default function Gst3B({
   };
   const getExpenseRecord = () => {
     return axios
-      .get(`http://localhost:8099/expense/getexpensedetails`, {
+      .get(`http://188.166.228.50:8089/expense/getexpensedetails`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("tokenauth")}`,
         },

@@ -40,7 +40,7 @@ export default function Gst2({
   }, []);
   const getExpenseRecord = async () => {
     await axios
-      .get(`http://localhost:8099/expense/getexpensedetails`, {
+      .get(`http://188.166.228.50:8089/expense/getexpensedetails`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("tokenauth")}`,
         },

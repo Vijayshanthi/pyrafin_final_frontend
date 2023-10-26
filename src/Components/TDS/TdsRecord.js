@@ -19,7 +19,7 @@ export default function TdsRecord({ }) {
   }, []);
   const getExpenseRecord = async () => {
     await axios
-      .get(`http://localhost:8099/tds/getexpensetdsdetails`, {
+      .get(`http://188.166.228.50:8089/tds/getexpensetdsdetails`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("tokenauth")}`,
         },
