@@ -21,6 +21,7 @@ import {
   Button,
   Grid,
 } from "@mui/material";
+import "./Dashboard.css";
 import DeleteIcon from "@mui/icons-material/Delete";
 import GetAppIcon from "@mui/icons-material/GetApp";
 import AddIcon from "@mui/icons-material/Add";
@@ -366,55 +367,65 @@ const Dashboard = () => {
     gettotalExpense();
   }, []);
 
+
   return (
     <ThemeProvider theme={theme}>
       <div>
         <Container>
           <Typography
             sx={{
-              fontSize: "220%",
-              color: "primary",
-              padding: "20px",
-              fontFamily: "Young Serif",
-              color: "#2196f3",
+              fontSize: "250%",
+              color: "secondary",
+              padding: "10px",
+              fontFamily: 'Vazir',
+              color: "Black",
+              fontWeight: "bold",
             }}
           >
-            Dashboard
+            DASHBOARD
           </Typography>
 
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <Grid item xs={12} sm={4}>
               <Box
                 sx={{
-                  width: "300px",
+                  width: "250px",
                   boxShadow: "10px 10px 4px 0px #00000050",
-
-                  borderRadius: "25px",
+                  borderRadius: "18px",
                   display: { xs: "block", md: "block" },
-                  height: "150px",
+                  height: "100px",
                   paddingLeft: "20px",
-                  background: "#47A9F5",
-                  color: "white",
+                  background: "white",
+                  color: "Black",
                   marginLeft: "20px",
                   paddingTop: "10px",
                   marginRight: "30px",
+                  Fontweight: "Bold",
                 }}
               >
                 <Typography
                   sx={{
-                    fontSize: { md: "40px", xs: "1rem" },
-                    fontFamily: "Young Serif",
+                    fontSize: { md: "20px", xs: "1rem" },
+                    color: "secondary",
+                    padding: "10px",
+                    fontFamily: 'Vazir',
+                    color: "Black",
+                    fontWeight: "bold",
                   }}
                 >
                   Income
-                  <img src={IncomeImg} alt="" style={{ height: "30px" }} />
+                  <img src={IncomeImg} alt="" style={{ marginleft: "20px", height: "30px" }} />
                 </Typography>
 
                 <Typography
                   sx={{
-                    color: "green",
-                    fontSize: { md: "40px", xs: "1rem" },
-                    fontFamily: "Young Serif",
+                    color: "Black",
+                    fontSize: { md: "20px", xs: "1rem" },
+                    color: "secondary",
+                    padding: "10px",
+                    fontFamily: 'Vazir',
+                    color: "Black",
+                    fontWeight: "bold",
                   }}
                 >
                   Rs.{totalIncome}
@@ -425,15 +436,15 @@ const Dashboard = () => {
             <Grid item xs={12} sm={4}>
               <Box
                 sx={{
-                  width: "300px",
+                  width: "250px",
                   boxShadow: "10px 10px 4px 0px #00000050",
 
-                  borderRadius: "25px",
+                  borderRadius: "20px",
                   display: { xs: "block", md: "block" },
-                  height: "150px",
+                  height: "100px",
                   paddingLeft: "20px",
-                  background: "#47A9F5",
-                  color: "white",
+                  background: "White",
+                  color: "Black",
                   marginLeft: "20px",
                   paddingTop: "10px",
                   marginRight: "30px",
@@ -441,8 +452,12 @@ const Dashboard = () => {
               >
                 <Typography
                   sx={{
-                    fontSize: { md: "40px", xs: "1rem" },
-                    fontFamily: "Young Serif",
+                    fontSize: { md: "20px", xs: "1rem" },
+                    color: "secondary",
+                    padding: "10px",
+                    fontFamily: 'Vazir',
+                    color: "Black",
+                    fontWeight: "bold",
                   }}
                 >
                   Expenses
@@ -451,9 +466,13 @@ const Dashboard = () => {
 
                 <Typography
                   sx={{
-                    color: "green",
-                    fontSize: { md: "40px", xs: "1rem" },
-                    fontFamily: "Young Serif",
+                    color: "Black",
+                    fontSize: { md: "20px", xs: "1rem" },
+                    color: "secondary",
+                    padding: "10px",
+                    fontFamily: 'Vazir',
+                    color: "Black",
+                    fontWeight: "bold",
                   }}
                 >
                   Rs.{totalExpense}
@@ -464,17 +483,17 @@ const Dashboard = () => {
             <Grid item xs={12} sm={4}>
               <Box
                 sx={{
-                  width: "300px",
+                  width: "250px",
                   boxShadow: "10px 10px 4px 0px #00000050",
 
                   marginTop: "0px",
 
-                  borderRadius: "25px",
+                  borderRadius: "20px",
                   display: { xs: "block", md: "block" },
-                  height: "150px",
+                  height: "100px",
                   paddingLeft: "20px",
-                  background: "#47A9F5",
-                  color: "white",
+                  background: "white",
+                  color: "Black",
                   marginLeft: "20px",
                   paddingTop: "10px",
                   marginRight: "30px",
@@ -482,8 +501,12 @@ const Dashboard = () => {
               >
                 <Typography
                   sx={{
-                    fontSize: { md: "40px", xs: "1rem" },
-                    fontFamily: "Young Serif",
+                    fontSize: { md: "20px", xs: "1rem" },
+                    color: "secondary",
+                    padding: "10px",
+                    fontFamily: 'Vazir',
+                    color: "Black",
+                    fontWeight: "bold",
                   }}
                 >
                   Profit/Loss
@@ -493,8 +516,12 @@ const Dashboard = () => {
                 <Typography
                   className={style}
                   sx={{
-                    fontSize: { md: "40px", xs: "1rem" },
-                    fontFamily: "Young Serif",
+                    fontSize: { md: "20px", xs: "1rem" },
+                    color: "secondary",
+                    padding: "10px",
+                    fontFamily: 'Vazir',
+                    color: "Black",
+                    fontWeight: "bold", color: "Black",
                   }}
                 >
                   {totalIncome - totalExpense}
@@ -503,7 +530,7 @@ const Dashboard = () => {
             </Grid>
           </div>
           <div>
-            <h2 style={{ fontFamily: "Young Serif" }}>Account Summary</h2>
+            <h1 style={{ fontFamily: "Young Serif" }}>Account Summary</h1>
             <div
               style={{
                 display: "flex",
@@ -570,8 +597,8 @@ const Dashboard = () => {
                     <TableCell
                       style={{
                         fontWeight: "bold",
-                        fontSize: "25px",
-                        background: "#676767",
+                        fontSize: "20px",
+                        background: "Lightgrey"
                       }}
                     >
                       Account
@@ -579,8 +606,8 @@ const Dashboard = () => {
                     <TableCell
                       style={{
                         fontWeight: "bold",
-                        fontSize: "25px",
-                        background: "#676767",
+                        fontSize: "20px",
+                        background: "Lightgrey"
                       }}
                     >
                       Limit
@@ -588,8 +615,8 @@ const Dashboard = () => {
                     <TableCell
                       style={{
                         fontWeight: "bold",
-                        fontSize: "25px",
-                        background: "#676767",
+                        fontSize: "20px",
+                        background: "Lightgrey"
                       }}
                     >
                       Balance
@@ -597,8 +624,8 @@ const Dashboard = () => {
                     <TableCell
                       style={{
                         fontWeight: "bold",
-                        fontSize: "25px",
-                        background: "#676767",
+                        fontSize: "20px",
+                        background: "Lightgrey"
                       }}
                     >
                       Date
@@ -606,8 +633,8 @@ const Dashboard = () => {
                     <TableCell
                       style={{
                         fontWeight: "bold",
-                        fontSize: "25px",
-                        background: "#676767",
+                        fontSize: "20px",
+                        background: "Lightgrey"
                       }}
                     >
                       Edit
@@ -617,7 +644,8 @@ const Dashboard = () => {
 
                 <TableBody
                   style={{
-                    fontSize: "25px",
+                    fontWeight: "bold",
+                    fontSize: "20px",
                   }}
                 >
                   {tableData.map((row, index) => (
@@ -687,8 +715,8 @@ const Dashboard = () => {
                     <TableCell
                       style={{
                         fontWeight: "bold",
-                        fontSize: "25px",
-                        background: "#676767",
+                        fontSize: "20px",
+                        background: "light grey",
                       }}
                     >
                       Total
@@ -696,8 +724,8 @@ const Dashboard = () => {
                     <TableCell
                       style={{
                         fontWeight: "bold",
-                        fontSize: "25px",
-                        background: "#676767",
+                        fontSize: "20px",
+                        background: "light grey",
                       }}
                     >
                       {calculateTotal().totalLimit}
@@ -705,8 +733,8 @@ const Dashboard = () => {
                     <TableCell
                       style={{
                         fontWeight: "bold",
-                        fontSize: "25px",
-                        background: "#676767",
+                        fontSize: "20px",
+                        background: "light grey",
                       }}
                     >
                       {calculateTotal().totalBalance}
@@ -714,8 +742,8 @@ const Dashboard = () => {
                     <TableCell
                       style={{
                         fontWeight: "bold",
-                        fontSize: "25px",
-                        background: "#676767",
+                        fontSize: "20px",
+                        background: "light grey",
                       }}
                     >
                       -
@@ -723,8 +751,8 @@ const Dashboard = () => {
                     <TableCell
                       style={{
                         fontWeight: "bold",
-                        fontSize: "25px",
-                        background: "#676767",
+                        fontSize: "20px",
+                        background: "light grey",
                       }}
                     >
                       -
@@ -783,7 +811,7 @@ const Dashboard = () => {
           </Dialog>
         </Container>
       </div>
-    </ThemeProvider>
+    </ThemeProvider >
   );
 };
 

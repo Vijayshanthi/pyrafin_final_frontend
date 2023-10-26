@@ -52,15 +52,15 @@ export default function ExpenseDashboard() {
         <Grid item md={6}>
           <Typography
             sx={{
-              fontSize: "220%",
-              color: "primary",
-              padding: "20px",
-              fontFamily: "Young Serif",
-              color: "#2196f3",
+              fontSize: "250%",
+              color: "secondary",
+              padding: "10px",
+              fontFamily: 'Vazir',
+              color: "Black",
+              fontWeight: "bold",
             }}
           >
-            Expense Record
-          </Typography>
+            EXPENSE RECORD          </Typography>
         </Grid>
       </Grid>
       <Grid container xs>
@@ -73,8 +73,8 @@ export default function ExpenseDashboard() {
               display: { xs: "block", md: "block" },
               height: "150px",
               paddingLeft: "20px",
-              background: "#47a9f5",
-              color: "white",
+              background: "White",
+              color: "Black",
               marginLeft: "20px",
               paddingTop: "10px",
             }}
@@ -87,7 +87,10 @@ export default function ExpenseDashboard() {
               }}
             >
               <Typography
-                sx={{ fontSize: { md: "30px", xs: "1rem" }, fontWeight: "600" }}
+                sx={{
+                  fontSize: { md: "30px", xs: "1rem" }, fontSize: "150%",
+                  fontFamily: 'Vazir', fontWeight: "Bold"
+                }}
               >
                 Direct Expense
               </Typography>
@@ -95,7 +98,10 @@ export default function ExpenseDashboard() {
             </div>
             <div style={{ display: "flex" }}>
               <Typography
-                sx={{ fontSize: { md: "40px", xs: "1rem" }, fontWeight: "600" }}
+                sx={{
+                  fontSize: { md: "40px", xs: "1rem" }, fontSize: "150%",
+                  fontFamily: 'Vazir', fontWeight: "Bold"
+                }}
               >
                 ₹ {totalExpense && `${totalExpense}`}
               </Typography>
@@ -121,8 +127,8 @@ export default function ExpenseDashboard() {
               display: { xs: "block", md: "block" },
               height: "150px",
               paddingLeft: "20px",
-              background: "#47a9f5",
-              color: "white",
+              background: "white",
+              color: "Black",
               marginLeft: "20px",
               paddingTop: "10px",
             }}
@@ -135,7 +141,10 @@ export default function ExpenseDashboard() {
               }}
             >
               <Typography
-                sx={{ fontSize: { md: "30px", xs: "1rem" }, fontWeight: "600" }}
+                sx={{
+                  fontSize: { md: "30px", xs: "1rem" }, fontSize: "150%",
+                  fontFamily: 'Vazir', fontWeight: "Bold"
+                }}
               >
                 Indirect Expense
               </Typography>
@@ -143,7 +152,10 @@ export default function ExpenseDashboard() {
             </div>
             <div style={{ display: "flex" }}>
               <Typography
-                sx={{ fontSize: { md: "40px", xs: "1rem" }, fontWeight: "600" }}
+                sx={{
+                  fontSize: { md: "40px", xs: "1rem" }, fontSize: "150%",
+                  fontFamily: 'Vazir', fontWeight: "Bold"
+                }}
               >
                 ₹ {unpaidExpense && `${unpaidExpense}`}
               </Typography>

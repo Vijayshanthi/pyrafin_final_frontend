@@ -425,6 +425,9 @@ export default function Income2({ totalIncomecall, totalunpaidincomecall }) {
       headerAlign: "center",
       renderCell: (params) => {
         const value = params.value || 0;
+
+
+
         return (
           <span>
             <b>{value}</b>
@@ -589,7 +592,7 @@ export default function Income2({ totalIncomecall, totalunpaidincomecall }) {
     <Box
       sx={{
         height: 500,
-        width: "100%",
+        width: "80%",
         "& .actions": {
           color: "text.secondary",
         },
@@ -597,8 +600,8 @@ export default function Income2({ totalIncomecall, totalunpaidincomecall }) {
           color: "text.primary",
         },
         "& .super-app-theme--header": {
-          backgroundColor: "#676767",
-          color: "white",
+          backgroundColor: "lightgrey",
+          color: "black",
           fontSize: "17px",
           border: "1px solid #fff",
           borderRadius: "5px",
@@ -649,7 +652,7 @@ export default function Income2({ totalIncomecall, totalunpaidincomecall }) {
               id="filled-basic"
               label={
                 <span>
-                  Invoice Number <span style={{ color: "red" }}>*</span>
+                  Invoice Number <span style={{ color: "black" }}>*</span>
                 </span>
               }
               variant="filled"

@@ -264,8 +264,7 @@ export default function ExpenseRecord({
           navigate("/login");
         } else if (err.response && err.response.status == 500) {
           window.alert(
-            ` ${
-              err.response && err.response.data && err.response.data.msg
+            ` ${err.response && err.response.data && err.response.data.msg
             } in ${err.response.data.path}`
           );
         }
@@ -316,8 +315,7 @@ export default function ExpenseRecord({
           navigate("/login");
         } else if (err.response && err.response.status == 500) {
           window.alert(
-            ` ${
-              err.response && err.response.data && err.response.data.msg
+            ` ${err.response && err.response.data && err.response.data.msg
             } in ${err.response.data.path}`
           );
         }
@@ -760,8 +758,8 @@ export default function ExpenseRecord({
           color: "text.primary",
         },
         "& .super-app-theme--header": {
-          backgroundColor: "#676767",
-          color: "white",
+          backgroundColor: "Lightgrey",
+          color: "Black",
           fontSize: "17px",
           border: "1px solid #fff",
           borderRadius: "5px",
@@ -1182,7 +1180,7 @@ export default function ExpenseRecord({
         <DialogActions>
           <Button
             autoFocus
-            sx={{ background: "#FBC91B" }}
+            sx={{ background: "Light grey" }}
             variant="contained"
             onClick={() => handleaddExpense()}
           >

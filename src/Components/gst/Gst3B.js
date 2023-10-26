@@ -302,6 +302,30 @@ export default function Gst3B({
       setITC(input);
     }
   };
+
+  const centerStyle1 = {
+    display: 'flex',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    height: '10vh',
+  };
+
+  const centerStyle2 = {
+    display: 'flex',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    height: '10vh', // Center vertically on the page
+  };
+
+  const centerStyle3 = {
+    display: 'flex',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    height: '10vh',
+    fontWeight: 'bold', // Make the text bold
+    // Center vertically on the page
+  };
+
   const textFieldStyle = {
     marginTop: "20px",
     backgroundColor: "#f5f5f5",
@@ -320,11 +344,12 @@ export default function Gst3B({
         <Grid item md={6}>
           <Typography
             sx={{
-              fontSize: "220%",
-              color: "primary",
-              padding: "20px",
-              fontFamily: "Young Serif",
-              color: "#2196F3",
+              fontSize: "250%",
+              color: "secondary",
+              padding: "10px",
+              fontFamily: 'Vazir',
+              color: "Black",
+              fontWeight: "bold",
             }}
           >
             GST 3B - SALES
@@ -334,7 +359,7 @@ export default function Gst3B({
       <Box
         sx={{
           height: 300,
-          width: "100%",
+          width: "50%",
           "& .actions": {
             color: "text.secondary",
           },
@@ -342,8 +367,8 @@ export default function Gst3B({
             color: "text.primary",
           },
           "& .super-app-theme--header": {
-            backgroundColor: "#676767",
-            color: "white",
+            backgroundColor: "Lightgrey",
+            color: "Black",
             fontSize: "17px",
             border: "1px solid #fff",
             borderRadius: "5px",
@@ -361,38 +386,46 @@ export default function Gst3B({
           }}
         />
       </Box>
-      <TextField
-        label="Total amount of GST"
-        variant="outlined"
-        value={
-          rows != []
-            ? ((rows[0] && rows[0].total) - (rows[1] && rows[1].total)).toFixed(
-              2
-            )
-            : ""
-        }
-        style={{ marginTop: "20px" }}
-      />
+
+      <div style={centerStyle1}>
+
+        <TextField
+          label="Total amount of GST"
+          variant="outlined"
+          value={
+            rows != []
+              ? ((rows[0] && rows[0].total) - (rows[1] && rows[1].total)).toFixed(
+                2
+              )
+              : ""
+          }
+          style={{ marginTop: "20px" }}
+        />
+      </div>
       <br />
-      <TextField
-        label="ITC"
-        variant="outlined"
-        value={itc}
-        onChange={handleITCChange}
-        style={{ marginTop: "20px" }}
-      />
+      <div style={centerStyle2}>
+        <TextField
+          label="ITC"
+          variant="outlined"
+          value={itc}
+          onChange={handleITCChange}
+          style={{ marginTop: "20px" }}
+        />
+      </div>
       <br />
-      <TextField
-        label="Net Pay"
-        variant="outlined"
-        value={
-          rows != []
-            ? ((rows[0] && rows[0].total) - (rows[1] && rows[1].total)).toFixed(2) - itc
-            : ""
-        }
-        disabled
-        style={textFieldStyle}
-      />
+      <div style={centerStyle3}>
+        <TextField
+          label="Net Pay"
+          variant="outlined"
+          value={
+            rows != []
+              ? ((rows[0] && rows[0].total) - (rows[1] && rows[1].total)).toFixed(2) - itc
+              : ""
+          }
+
+          style={textFieldStyle}
+        />
+      </div>
     </>
   );
 }

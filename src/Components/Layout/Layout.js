@@ -21,15 +21,29 @@ import { useNavigate } from "react-router-dom";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
 import TdsDashboard from "../TDS/TdsDashboard";
+// import Gst from "../gst/Gst1.js";
+// import PayrollDashboard from "../Payroll/PayrollDashboard";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import Gst1 from "../gst/Gst1";
 import Gst2 from "../gst/Gst2";
 import Gst3 from "../gst/Gst3B";
 
-//  import PayrollDashboard from "../Payroll/PayrollDashboard";
 const Layout = () => {
   const [showNavBar, setShowNavBar] = useState(true);
   const [selectedTab, setSelectedTab] = useState("dashboard");
+  const [anchorEl, setAnchorEl] = useState(null);
   const navigate = useNavigate();
+
+  const handleGSTClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleGSTClose = () => {
+    setAnchorEl(null);
+  };
+
   const handleLogout = async () => {
     try {
       localStorage.removeItem("tokenauth");
@@ -38,27 +52,69 @@ const Layout = () => {
       console.error("Logout error:", error);
     }
   };
+
   const renderSelectedComponent = () => {
+    const componentStyle = {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: '100vw',
+      height: '100vh',
+      backgroundImage:
+        'url("https://static.vecteezy.com/system/resources/thumbnails/000/570/382/small/1543.jpg")',
+      backgroundSize: "cover",
+      backgroundRepeat: "no-repeat",
+    };
     if (selectedTab === "dashboard") {
-      return <Dashboard />;
+      return (
+        <div style={componentStyle}>
+          <Dashboard />
+        </div>
+      );
     } else if (selectedTab === "income") {
-      return <IncomeDashboard />;
+      return (
+        <div style={componentStyle}>
+          <IncomeDashboard />
+        </div>
+      );
     } else if (selectedTab === "expenses") {
-      return <ExpenseDashboard />;
+      return (
+        <div style={componentStyle}>
+          <ExpenseDashboard />
+        </div>
+      );
     } else if (selectedTab === "tdsdashboard") {
-      return <TdsDashboard />;
-    } else if (selectedTab === "Gst1") {
-      return <Gst1 />;
-    } else if (selectedTab === "Gst2") {
-      return <Gst2 />;
-    } else if (selectedTab === "Gst3B") {
-      return <Gst3 />;
+      return (
+        <div style={componentStyle}>
+          <TdsDashboard />
+        </div>
+      );
+    } else if (selectedTab === "incomegst") {
+      return (
+        <div style={componentStyle}>
+          <Gst1 />
+        </div>
+      );
+    } else if (selectedTab === "expensegst") {
+      return (
+        <div style={componentStyle}>
+          <Gst2 />
+        </div>
+      );
+    } else if (selectedTab === "gstsales") {
+      return (
+        <div style={componentStyle}>
+          <Gst3 />
+        </div>
+      );
     }
   };
+
   const handleTabClick = (tab) => {
     setSelectedTab(tab);
     localStorage.setItem("selectedTab", tab);
   };
+
   useEffect(() => {
     const storedTab = localStorage.getItem("selectedTab");
     if (storedTab) {
@@ -76,7 +132,7 @@ const Layout = () => {
             "& .MuiDrawer-paper": {
               width: 240,
               boxSizing: "border-box",
-              backgroundColor: "#000000",
+              backgroundColor: "#eee;",
             },
           }}
         >
@@ -84,10 +140,12 @@ const Layout = () => {
             <Typography
               variant="h6"
               style={{
+                fontSize: "180%",
+                color: "secondary",
+                padding: "10px",
+                fontFamily: 'Vazir',
+                color: "Black",
                 fontWeight: "bold",
-                fontSize: "1.5rem",
-                color: "#FFFFFF",
-                marginLeft: "16px",
               }}
             >
               Pyra Fin
@@ -101,14 +159,17 @@ const Layout = () => {
               onClick={() => handleTabClick("dashboard")}
               sx={{
                 "&:hover": {
-                  backgroundColor: "#333",
+                  backgroundColor: "#397db9",
+                  color: "397db9",
+                  fontWeight: "bold", // Apply bold font style
+                  fontSize: "20.2rem", // Adjust the font size
                 },
               }}
             >
               <ListItemIcon>
-                <DashboardIcon style={{ color: "#FBC91B" }} />
+                <DashboardIcon style={{ color: "black" }} />
               </ListItemIcon>
-              <ListItemText primary="Dashboard" style={{ color: "#FBC91B" }} />
+              <ListItemText primary="Dashboard" style={{ color: "Black" }} />
             </ListItem>
             <ListItem
               button
@@ -116,14 +177,14 @@ const Layout = () => {
               onClick={() => handleTabClick("income")}
               sx={{
                 "&:hover": {
-                  backgroundColor: "#333",
+                  backgroundColor: "#397db9",
                 },
               }}
             >
               <ListItemIcon>
-                <MonetizationOnIcon style={{ color: "#FBC91B" }} />
+                <MonetizationOnIcon style={{ color: "Black" }} />
               </ListItemIcon>
-              <ListItemText primary="Income" style={{ color: "#FBC91B" }} />
+              <ListItemText primary="Income" style={{ color: "Black" }} />
             </ListItem>
             <ListItem
               button
@@ -131,14 +192,14 @@ const Layout = () => {
               onClick={() => handleTabClick("expenses")}
               sx={{
                 "&:hover": {
-                  backgroundColor: "#333",
+                  backgroundColor: "#397db9",
                 },
               }}
             >
               <ListItemIcon>
-                <AccountBalanceWalletIcon style={{ color: "#FBC91B" }} />
+                <AccountBalanceWalletIcon style={{ color: "Black" }} />
               </ListItemIcon>
-              <ListItemText primary="Expenses" style={{ color: "#FBC91B" }} />
+              <ListItemText primary="Expenses" style={{ color: "Black" }} />
             </ListItem>
             <ListItem
               button
@@ -146,90 +207,69 @@ const Layout = () => {
               onClick={() => handleTabClick("tdsdashboard")}
               sx={{
                 "&:hover": {
-                  backgroundColor: "#333",
+                  backgroundColor: "#397db9",
                 },
               }}
             >
               <ListItemIcon>
-                <AccountBalanceIcon style={{ color: "#FBC91B" }} />
+                <AccountBalanceIcon style={{ color: "Black" }} />
               </ListItemIcon>
-              <ListItemText primary="TDS" style={{ color: "#FBC91B" }} />
+              <ListItemText primary="TDS" style={{ color: "Black" }} />
             </ListItem>
             <ListItem
               button
-              key="Gst1"
-              onClick={() => handleTabClick("Gst1")}
+              key="gst"
+              onClick={handleGSTClick}
               sx={{
                 "&:hover": {
-                  backgroundColor: "#333",
+                  backgroundColor: "#397db9",
                 },
               }}
             >
               <ListItemIcon>
-                <ArrowOutwardIcon style={{ color: "#FBC91B" }} />
+                <ArrowOutwardIcon style={{ color: "Black" }} />
               </ListItemIcon>
-              <ListItemText primary="GST1" style={{ color: "#FBC91B" }} />
+              <ListItemText primary="GST" style={{ color: "Black" }} />
+              <ArrowDropDownIcon style={{ color: "Black" }} />
+
             </ListItem>
-            <ListItem
-              button
-              key="Gst2"
-              onClick={() => handleTabClick("Gst2")}
-              sx={{
-                "&:hover": {
-                  backgroundColor: "#333",
-                },
+            <Menu
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl)}
+              onClose={handleGSTClose}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "left",
               }}
             >
-              <ListItemIcon>
-                <ArrowOutwardIcon style={{ color: "#FBC91B" }} />
-              </ListItemIcon>
-              <ListItemText primary="GST2" style={{ color: "#FBC91B" }} />
-            </ListItem>
-            <ListItem
-              button
-              key="Gst3B"
-              onClick={() => handleTabClick("Gst3B")}
-              sx={{
-                "&:hover": {
-                  backgroundColor: "#333",
-                },
-              }}
-            >
-              <ListItemIcon>
-                <ArrowOutwardIcon style={{ color: "#FBC91B" }} />
-              </ListItemIcon>
-              <ListItemText primary="GST3B" style={{ color: "#FBC91B" }} />
-            </ListItem>
-            <ListItem
-              button
-              key="Payroll"
-              onClick={() => handleTabClick("Payroll")}
-              sx={{
-                "&:hover": {
-                  backgroundColor: "#333",
-                },
-              }}
-            >
-              <ListItemIcon>
-                <ArrowOutwardIcon style={{ color: "#FBC91B" }} />
-              </ListItemIcon>
-              <ListItemText primary="Payroll" style={{ color: "#FBC91B" }} />
-            </ListItem>
+              <MenuItem onClick={() => handleTabClick("incomegst")}>
+                GST-1
+              </MenuItem>
+              <MenuItem onClick={() => handleTabClick("expensegst")}>
+                GST-2
+              </MenuItem>
+              <MenuItem onClick={() => handleTabClick("gstsales")}>
+                GST-3B
+              </MenuItem>
+            </Menu>
             <ListItem
               button
               key="logout"
               onClick={handleLogout}
               sx={{
                 "&:hover": {
-                  backgroundColor: "#333",
+                  backgroundColor: "#397db9",
                 },
               }}
             >
-
               <ListItemIcon>
-                <LogoutIcon style={{ color: "#FBC91B" }} />
+                <LogoutIcon style={{ color: "Black" }} />
               </ListItemIcon>
-              <ListItemText primary="Logout" style={{ color: "#FBC91B" }} />
+              <ListItemText primary="Logout" style={{ color: "Black" }} />
             </ListItem>
           </List>
         </Drawer>
@@ -239,25 +279,3 @@ const Layout = () => {
   );
 };
 export default Layout;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

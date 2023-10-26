@@ -1,47 +1,25 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import AddIcon from "@mui/icons-material/Add";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/DeleteOutlined";
-import Dialog from "@mui/material/Dialog";
-import moment from "moment";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import TextField from "@mui/material/TextField";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import { Grid } from "@mui/material";
+import { Grid, Container } from "@mui/material";
 import axios from "axios";
-import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
+import { DataGrid } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Typography } from "@mui/material";
 
-
-export default function Gst1({
-  totalExpenseDetails,
-  totalIndirectExpenseDetails,
-}) {
-  const navigate = useNavigate();
-  const [open, setOpen] = React.useState(false);
-  const [deleteopen, setdeleteOpen] = React.useState(false);
-  const [deleteid, setDeleteId] = useState(0);
+export default function TdsRecord({ }) {
   const [rows, setRows] = useState([]);
-  const [fullWidth, setFullWidth] = React.useState(true);
   const [rowModesModel, setRowModesModel] = useState({});
-  const [validationError, setValidationError] = useState("");
-  const [actionTake, setActionTake] = useState(false);
+  const navigate = useNavigate();
+
   const today = new Date().toISOString().split("T")[0];
+
   useEffect(() => {
     getExpenseRecord();
   }, []);
   const getExpenseRecord = async () => {
     await axios
-      .get(`http://localhost:8099/gst/getincomedetails`, {
+      .get(`http://localhost:8099/tds/getexpensetdsdetails`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("tokenauth")}`,
         },
@@ -58,6 +36,7 @@ export default function Gst1({
         }
       });
   };
+
   const columns = [
     {
       field: "ActionDate",
@@ -78,8 +57,10 @@ export default function Gst1({
         }
         return new Date(actionDate);
       },
+
       headerClassName: "super-app-theme--header",
     },
+
     {
       field: "InvoiceNumber",
       headerName: (
@@ -93,11 +74,12 @@ export default function Gst1({
       headerAlign: "center",
       headerClassName: "super-app-theme--header",
     },
+
     {
-      field: "Particulars",
+      field: "Section",
       headerName: (
         <div>
-          <b>Company </b>
+          <b>Section</b>
         </div>
       ),
       width: 200,
@@ -107,10 +89,45 @@ export default function Gst1({
       headerClassName: "super-app-theme--header",
     },
     {
-      field: "CGST",
+      field: "Particulars",
       headerName: (
         <div>
-          <b> CGST </b>
+          <b>Particulars </b>
+        </div>
+      ),
+      width: 200,
+      editable: true,
+      align: "left",
+      headerAlign: "center",
+      headerClassName: "super-app-theme--header",
+    },
+    {
+      field: "TDS",
+      headerName: (
+        <div>
+          <b>TDS % </b>
+        </div>
+      ),
+      type: "number",
+      width: 130,
+      editable: true,
+      align: "left",
+      headerAlign: "center",
+      headerClassName: "super-app-theme--header",
+      renderCell: (params) => {
+        const value = params.value || 0;
+        return (
+          <span>
+            <b>{value}</b>
+          </span>
+        );
+      },
+    },
+    {
+      field: "TDSAmount",
+      headerName: (
+        <div>
+          <b> TDS & Deduction </b>
         </div>
       ),
       type: "number",
@@ -121,40 +138,11 @@ export default function Gst1({
       headerClassName: "super-app-theme--header",
     },
 
-    {
-      field: "SGST",
-      headerName: (
-        <div>
-          <b> SGST </b>
-        </div>
-      ),
-      type: "number",
-      width: 130,
-      editable: true,
-      align: "left",
-      headerAlign: "center",
-      headerClassName: "super-app-theme--header",
-    },
-
-    {
-      field: "IGST",
-      headerName: (
-        <div>
-          <b> IGST </b>
-        </div>
-      ),
-      type: "number",
-      width: 130,
-      editable: true,
-      align: "left",
-      headerAlign: "center",
-      headerClassName: "super-app-theme--header",
-    },
     {
       field: "TotalAmount",
       headerName: (
         <div>
-          <b>Total </b>
+          <b>Total Amount </b>
         </div>
       ),
       type: "number",
@@ -173,13 +161,18 @@ export default function Gst1({
       headerClassName: "super-app-theme--header",
     },
   ];
-  return (
-    <>
 
-      <Grid container xs={12}>
-        <Grid item md={6}>
+  return (
+    <Container
+      maxWidth="xl"
+      style={{ marginTop: "20px", height: "100vh", width: "100%" }}
+    >
+      <Grid container>
+        <Grid item xs={12}>
           <Typography
-            sx={{
+            variant="h4"
+            color="primary"
+            style={{
               fontSize: "250%",
               color: "secondary",
               padding: "10px",
@@ -188,14 +181,14 @@ export default function Gst1({
               fontWeight: "bold",
             }}
           >
-            GST 1 - INCOME
+            Tax Deducted at Source
           </Typography>
         </Grid>
       </Grid>
       <Box
         sx={{
           height: 500,
-          width: "67%",
+          width: "100%",
           "& .actions": {
             color: "text.secondary",
           },
@@ -203,7 +196,7 @@ export default function Gst1({
             color: "text.primary",
           },
           "& .super-app-theme--header": {
-            backgroundColor: "Lightgrey",
+            backgroundColor: "LightGrey",
             color: "Black",
             fontSize: "17px",
             border: "1px solid #fff",
@@ -221,7 +214,6 @@ export default function Gst1({
           }}
         />
       </Box>
-
-    </>
+    </Container>
   );
 }

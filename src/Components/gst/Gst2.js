@@ -178,11 +178,12 @@ export default function Gst2({
         <Grid item md={6}>
           <Typography
             sx={{
-              fontSize: "220%",
-              color: "primary",
-              padding: "20px",
-              fontFamily: "Young Serif",
-              color: "#2196F3",
+              fontSize: "250%",
+              color: "secondary",
+              padding: "10px",
+              fontFamily: 'Vazir',
+              color: "Black",
+              fontWeight: "bold",
             }}
           >
             GST 2 - EXPENSE          </Typography>
@@ -191,7 +192,7 @@ export default function Gst2({
       <Box
         sx={{
           height: 500,
-          width: "100%",
+          width: "67%",
           "& .actions": {
             color: "text.secondary",
           },
@@ -199,8 +200,8 @@ export default function Gst2({
             color: "text.primary",
           },
           "& .super-app-theme--header": {
-            backgroundColor: "#676767",
-            color: "white",
+            backgroundColor: "Lightgrey",
+            color: "Black",
             fontSize: "17px",
             border: "1px solid #fff",
             borderRadius: "5px",

@@ -52,14 +52,15 @@ export default function IncomeDashboard() {
         <Grid item md={6} xs={3}>
           <Typography
             sx={{
-              fontSize: "220%",
-              color: "primary",
-              padding: "20px",
-              fontFamily: "Young Serif",
-              color: "#2196f3",
+              fontSize: "250%",
+              color: "secondary",
+              padding: "10px",
+              fontFamily: 'Vazir',
+              color: "Black",
+              fontWeight: "bold",
             }}
           >
-            Income Outstanding
+            INCOME OUTSTANDING
           </Typography>
         </Grid>
       </Grid>
@@ -68,13 +69,14 @@ export default function IncomeDashboard() {
         <Grid item xl={3} md={3} xs={2}>
           <Box
             sx={{
+              width: "250px",
               marginTop: "20px",
               borderRadius: "25px",
               display: { xs: "block", md: "block" },
               height: "150px",
               paddingLeft: "20px",
-              background: "#47a9f5",
-              color: "white",
+              background: "white",
+              color: "Black",
               marginLeft: "20px",
               paddingTop: "10px",
             }}
@@ -87,7 +89,13 @@ export default function IncomeDashboard() {
               }}
             >
               <Typography
-                sx={{ fontSize: { md: "30px", xs: "1rem" }, fontWeight: "600" }}
+                sx={{
+                  fontSize: { md: "20px", xs: "1rem" }, color: "secondary",
+                  padding: "10px",
+                  fontFamily: 'Vazir',
+                  color: "Black",
+                  fontWeight: "bold",
+                }}
               >
                 Paid Income
               </Typography>
@@ -95,14 +103,20 @@ export default function IncomeDashboard() {
             </div>
             <div style={{ display: "flex" }}>
               <Typography
-                sx={{ fontSize: { md: "40px", xs: "1rem" }, fontWeight: "600" }}
+                sx={{
+                  fontSize: { md: "25px", xs: "1rem" }, color: "secondary",
+                  padding: "10px",
+                  fontFamily: 'Vazir',
+                  color: "Black",
+                  fontWeight: "bold",
+                }}
               >
                 ₹ {totalIncome ? `${totalIncome}` : 0}
               </Typography>
               <Typography
                 sx={{
-                  fontSize: { md: "50px", xs: "1rem" },
-                  marginTop: "-20px",
+                  fontSize: { md: "25px", xs: "1rem" },
+                  marginTop: "10px",
                   fontWeight: "800",
                   color: "green",
                 }}
@@ -116,13 +130,14 @@ export default function IncomeDashboard() {
         <Grid item xl={3} md={3} xs={5}>
           <Box
             sx={{
+              width: "250px",
               marginTop: "20px",
               borderRadius: "25px",
               display: { xs: "block", md: "block" },
               height: "150px",
               paddingLeft: "20px",
-              background: "#47a9f5",
-              color: "white",
+              background: "white",
+              color: "Black",
               marginLeft: "20px",
               paddingTop: "10px",
             }}
@@ -135,7 +150,13 @@ export default function IncomeDashboard() {
               }}
             >
               <Typography
-                sx={{ fontSize: { md: "30px", xs: "1rem" }, fontWeight: "600" }}
+                sx={{
+                  fontSize: { md: "20px", xs: "1rem" }, color: "secondary",
+                  padding: "10px",
+                  fontFamily: 'Vazir',
+                  color: "Black",
+                  fontWeight: "bold",
+                }}
               >
                 Outstanding Income
               </Typography>
@@ -143,14 +164,20 @@ export default function IncomeDashboard() {
             </div>
             <div style={{ display: "flex" }}>
               <Typography
-                sx={{ fontSize: { md: "40px", xs: "1rem" }, fontWeight: "600" }}
+                sx={{
+                  fontSize: { md: "20px", xs: "1rem" }, color: "secondary",
+                  padding: "10px",
+                  fontFamily: 'Vazir',
+                  color: "Black",
+                  fontWeight: "bold",
+                }}
               >
                 ₹ {unpaidIncome ? `${unpaidIncome}` : 0}
               </Typography>
               <Typography
                 sx={{
-                  fontSize: { md: "50px", xs: "1rem" },
-                  marginTop: "-20px",
+                  fontSize: { md: "25px", xs: "1rem" },
+                  marginTop: "5px",
                   fontWeight: "800",
                   color: "green",
                 }}
