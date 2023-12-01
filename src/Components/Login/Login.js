@@ -90,7 +90,7 @@ const Login = () => {
   };
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
+<Container component="main" maxWidth="xs" sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "80vh" }}>
         <CssBaseline />
         <Box
           sx={{
@@ -100,16 +100,23 @@ const Login = () => {
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign in
-          </Typography>
+          
           <img src={logoImage} alt="Your Logo" />
           {/* <h3 background color="black">Pyra Fin</h3> */}
-          <div>Pyra Fin</div>
-          <Box
+          <Typography
+            sx={{
+              fontSize: "150%",
+              color: "secondary",
+              padding: "50px",
+              fontFamily: 'Vazir',
+              color: "Black",
+              fontWeight: "bold",
+            }}
+          >
+PYRA - FIN          </Typography>       
+
+
+   <Box
             component="form"
             noValidate
             onSubmit={handleSubmit}
@@ -162,12 +169,9 @@ const Login = () => {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link variant="body2">Forgot password?</Link>
               </Grid>
               <Grid item>
-                <Box sx={{ cursor: "pointer" }} onClick={() => navigate("/")}>
-                  {"Don't have an account? Sign Up"}
-                </Box>
+              
               </Grid>
             </Grid>
           </Box>

@@ -1,167 +1,179 @@
 import React, { useState } from "react";
-import { useFormik } from "formik";
-// import { useDispatch } from "react-redux";
-
-import {
-  TextField,
-  Button,
-  Container,
-  Grid,
-  IconButton,
-  InputAdornment,
-} from "@mui/material";
-import { Visibility, VisibilityOff, AccountCircle } from "@mui/icons-material";
-import "./RegistrationForm.css";
-import logoImage from "../../src/assets/Images/pyraimage.png";
-import { Link } from "react-router-dom";
-import OTPValidationForm from "./OTPValidationForm";
-import * as Yup from "yup"; // Import Yup
 import axios from "axios";
-const RegistrationForm = () => {
-  const [showPassword, setShowPassword] = useState(false);
-  const [otpSent, setOtpSent] = useState(false);
-  const validationSchema = Yup.object({
-    email: Yup.string()
-      .email("Invalid email format")
-      .required("Email is required"),
-    password: Yup.string().required("Password is required"),
+import { useNavigate } from "react-router-dom";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import Link from "@mui/material/Link";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { Icon } from "react-icons-kit";
+import { eyeOff } from "react-icons-kit/feather/eyeOff";
+import { eye } from "react-icons-kit/feather/eye";
+import logoImage from "../../assets/Images/horizontal.png";
+
+const Login = () => {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
   });
-  const formik = useFormik({
-    initialValues: {
-      email: "",
-      password: "",
-    },
-    validationSchema,
-    onSubmit: async (values) => {
-      // setOtpSent(true);
-      try {
-        localStorage.setItem("email", values.email);
-        const registrationResponse = await axios.post(
-          "http://188.166.228.50:8089/user/register",
-          {
-            email: values.email,
-            password: values.password,
-          }
-        );
-        if (registrationResponse.status === 201) {
-          setOtpSent(true);
-        } else if (registrationResponse.status === 301) {
-          window.alert("Email Already exists");
-        } else {
-          alert("Error registering user:", registrationResponse);
+  const [password, setPassword] = useState("");
+  const [type, setType] = useState("password");
+  const [icon, setIcon] = useState(eyeOff);
+  const [rememberMe, setRememberMe] = useState(false);
+  const navigate = useNavigate();
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+  const defaultTheme = createTheme();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await axios.post(
+        "http://188.166.228.50:8089/login/api/login",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("tokenauth")}`,
+          },
         }
-      } catch (error) {
-        if (error.response && error.response.status === 301) {
-          window.alert("Email already exists.");
+      );
+      if (response.status == 200) {
+        localStorage.setItem("userId", response.data.userId);
+        localStorage.setItem("tokenauth", response.data.token);
+
+        window.alert("Login successful");
+
+        // Save "Remember me" choice to localStorage
+        if (rememberMe) {
+          localStorage.setItem("rememberMe", "true");
         } else {
-          console.error("Error creating user:", error);
-          window.alert("An error occurred");
+          localStorage.removeItem("rememberMe");
         }
+
+        navigate("/layout");
+      } else {
+        window.alert("Login failed");
       }
-    },
-  });
-  const handleTogglePassword = () => {
-    setShowPassword(!showPassword);
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        window.alert("Invalid email or password.");
+      } else {
+        console.error("Error creating user:", error);
+        window.alert("An error occurred");
+      }
+    }
+  };
+  const handleToggle = () => {
+    if (type === "password") {
+      setIcon(eye);
+      setType("text");
+    } else {
+      setIcon(eyeOff);
+      setType("password");
+    }
+  };
+
+  const handleRememberMeChange = (event) => {
+    setRememberMe(event.target.checked); // Update "Remember me" state when the checkbox changes
   };
   return (
-    <>
-      <Container className="centered-container">
-        <div
-          style={{
+    <ThemeProvider theme={defaultTheme}>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 8,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
           }}
         >
-          <AccountCircle style={{ fontSize: "64px", color: "#FBC91B" }} />{" "}
-          {/* Signup icon */}
-          <h1 style={{ fontSize: "24px", color: "black" }}>Signup</h1>
+          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Sign in
+          </Typography>
           <img src={logoImage} alt="Your Logo" />
-        </div>
-        <div>
-          <div style={{ paddingLeft: "430px" }}>
-            <h4 style={{ alignItems: "center", paddingLeft: "140px" }}>
-              PYRA-FIN
-            </h4>
-            {!otpSent ? (
-              <form onSubmit={formik.handleSubmit}>
-                <TextField
-                  name="email"
-                  label="Email"
-                  variant="outlined"
-                  fullWidth
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.email}
-                  style={{
-                    marginBottom: "1rem",
-                    width: "100%",
-                    maxWidth: "350px",
-                  }}
-                  error={formik.touched.email && Boolean(formik.errors.email)}
-                  helperText={formik.touched.email && formik.errors.email}
-                />
-                <br />
-                <TextField
-                  name="password"
-                  label="Password"
-                  type={showPassword ? "text" : "password"}
-                  variant="outlined"
-                  fullWidth
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.password}
-                  style={{
-                    marginBottom: "1rem",
-                    width: "100%",
-                    maxWidth: "350px",
-                  }}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton
-                          onClick={handleTogglePassword}
-                          edge="end"
-                          aria-label="toggle password visibility"
-                        >
-                          {showPassword ? <Visibility /> : <VisibilityOff />}
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  }}
-                  error={
-                    formik.touched.password && Boolean(formik.errors.password)
-                  }
-                  helperText={formik.touched.password && formik.errors.password}
-                />
-                <Grid container style={{ marginBottom: "1rem" }}>
-                  <Grid item xs={12}>
-                    <Link to="/login" variant="h2">
-                      {"Already have an account? Login"}
-                    </Link>
-                  </Grid>
-                </Grid>
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  style={{ marginBottom: "1rem" }}
-                >
-                  NEXT
-                </Button>
-              </form>
-            ) : (
-              <div>
-                <OTPValidationForm
-                  email={formik.values.email}
-                  password={formik.values.password}
-                />
-              </div>
-            )}
-          </div>
-        </div>
+          {/* <h3 background color="black">Pyra Fin</h3> */}
+          <div>Pyra Fin</div>
+          <Box
+            component="form"
+            noValidate
+            onSubmit={handleSubmit}
+            sx={{ mt: 3 }}
+          >
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              autoFocus
+              onChange={handleChange}
+            />
+            <div>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                id="password"
+                // autoComplete="current-password"
+                // onChange={handleChange}
+                type={type}
+                placeholder="Password"
+                onChange={handleChange}
+              />
+              <span
+                className="eye-icon"
+                onClick={handleToggle}
+                style={{ position: "relative", top: "-45px", left: "260px" }}
+              >
+                <Icon className="absolute mr-10" icon={icon} size={25} />
+              </span>
+            </div>
+            <FormControlLabel
+              control={<Checkbox value="remember" color="primary" />}
+              label="Remember me"
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Sign In
+            </Button>
+            <Grid container>
+              <Grid item xs>
+                <Link variant="body2">Forgot password?</Link>
+              </Grid>
+              <Grid item>
+                <Box sx={{ cursor: "pointer" }} onClick={() => navigate("/")}>
+                  {"Don't have an account? Sign Up"}
+                </Box>
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
       </Container>
-    </>
+    </ThemeProvider>
   );
 };
-export default RegistrationForm;
+export default Login;
